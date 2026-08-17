@@ -30,9 +30,8 @@ public class StudentService {
         log.info("Adding student details to database");
         Student student = mapper.toEntity(studentRequestDTO);
         Student savedStudent = studentRepo.save(student);
-        StudentResponseDTO studentResponseDTO = mapper.toDTO(savedStudent);
         log.info("Successfully added student details to database ");
-        return studentResponseDTO;
+        return mapper.toDTO(savedStudent);
     }
 
     public List<StudentResponseDTO> getAllStudents() {
