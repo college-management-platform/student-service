@@ -44,12 +44,12 @@ public class StudentService {
     public StudentResponseDTO getStudentById(int id) {
         log.info("Fetching student details by id = {} from database", id);
         Optional<Student> student = studentRepo.findById(id);
-        StudentResponseDTO studentResponseDTO = null;
-        if (student.isPresent()) {
-            log.info("Successfully fetched student details for id = {} from database ", id);
-            studentResponseDTO = mapper.toDTO(student.get());
+        if (student.isEmpty()) {
+            log.info("Student details not found for id = {}", id);
+            return null;
         }
-        return studentResponseDTO;
+        log.info("Successfully fetched student details for id = {}", id);
+        return mapper.toDTO(student.get());
     }
 
     public StudentResponseDTO updateStudentStatusById(int id, StudentStatus status) {

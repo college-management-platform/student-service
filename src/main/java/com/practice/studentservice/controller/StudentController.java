@@ -7,6 +7,7 @@ import com.practice.studentservice.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,11 @@ public class StudentController {
     public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable Integer id) {
         log.info("Fetching student details by id = {}", id);
         StudentResponseDTO studentResponseDTO = studentService.getStudentById(id);
-        return new ResponseEntity<>(studentResponseDTO, HttpStatus.FOUND);
+        HttpStatusCode httpStatusCode = HttpStatus.FOUND;
+        if(studentResponseDTO == null){
+            httpStatusCode = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(studentResponseDTO, httpStatusCode);
     }
 
     @PatchMapping("/updateStudent/{id}/status")
